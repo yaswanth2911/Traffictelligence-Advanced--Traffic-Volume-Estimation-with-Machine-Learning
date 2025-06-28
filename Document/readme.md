@@ -45,7 +45,7 @@ This repository includes:
 
 ## 👥 Team Members
 
-- **Yaswanth Gunakala** – Team Leader  
+- **Yaswanth Gunakala** – Team Leader 
 - **Padi Chaithanya**  
 - **T Jashwanth**
 
