@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            color: #e0e7ff; /* Lighter text color for readability over dark background */
+        }
+
+        /* Hero Section - Full-width background image with overlay */
+        .hero-section {
+            position: relative;
+            width: 100%;
+            min-height: 100vh; /* Make hero section full viewport height */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background-image: url('/static/images/5d896ca0-acfa-47d2-a01c-23c061277376.png'); /* Placeholder background image */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Parallax effect */
+            z-index: 1; /* Ensure hero section is behind header content */
+            padding-top: 4rem; /* Space for fixed header */
+        }
+
+        /* Dark overlay for readability */
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.3)); /* Darker on left, lighter on right */
+            z-index: -1; /* Behind content but above background image */
+        }
+
+        /* Header styles - Fixed at top, with white background and dark text */
+        header {
+            position: fixed; /* Make header fixed */
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.95); /* Slightly transparent white header */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 1000; /* Ensure header is on top */
+            backdrop-filter: blur(5px); /* Subtle blur effect for header */
+        }
+
+        .header-logo {
+            color: #202124; /* Explicitly dark text for logo */
+            font-weight: bold;
+            font-size: 1.5rem; /* Equivalent to text-2xl */
+        }
+
+        .nav-link {
+            color: #5f6368; /* Dark gray for navigation links */
+            font-weight: 500; /* Medium weight */
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.25rem;
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+        }
+        .nav-link:hover {
+            background-color: #f0f0f0;
+            color: #202124;
+        }
+
+        /* Main content styling within hero section */
+        .hero-content {
+            max-width: 64rem; /* Wider for team cards */
+            width: 100%;
+            padding: 2rem 1rem; /* Vertical and horizontal padding */
+            animation: fadeInSlideUp 0.8s ease-out forwards;
+            animation-delay: 0.2s;
+            opacity: 0; /* Hidden by default for animation */
+            z-index: 10; /* Ensure content is above overlay */
+            background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent background for the content card */
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(8px); /* Blur behind the content card */
+            text-align: center;
+        }
+
+        .hero-title {
+            color: #ffffff; /* White text for title */
+            font-size: 2.5rem; /* Adjusted for impact */
+            font-weight: 800;
+            margin-bottom: 2rem;
+            line-height: 1.2;
+            animation: fadeInSlideUp 0.8s ease-out forwards;
+            animation-delay: 0.4s; /* Staggered animation */
+            opacity: 0;
+            text-align: center;
+        }
+
+        .profile-img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid #667eea;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+        .profile-img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Adjust team card background and text for overlay */
+        .team-card {
+            background-color: rgba(255, 255, 255, 0.15); /* Lighter transparent for individual cards */
+            color: #e0e7ff;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
+            transform: translateY(20px); /* Initial state for staggered animation */
+            opacity: 0; /* Hidden by default */
+        }
+        .team-card:hover {
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            transform: translateY(-5px);
+        }
+        .team-card h2 {
+            color: #ffffff; /* White text for team member names */
+        }
+        .team-card p {
+            color: #cbd5e1; /* Lighter gray for roles */
+        }
+        .team-card a {
+            color: #a78bfa; /* Lighter indigo for links on dark background */
+            font-weight: 600;
+            transition: color 0.2s ease-in-out;
+        }
+        .team-card a:hover {
+            color: #c4b5fd;
+        }
+
+        /* General Inquiries section */
+        .inquiries-section h2 {
+            color: #ffffff;
+            margin-top: 3rem;
+            animation: fadeInSlideUp 0.8s ease-out forwards;
+            animation-delay: 0.6s;
+            opacity: 0;
+        }
+        .inquiries-section p {
+            color: #e0e7ff;
+            animation: fadeInSlideUp 0.8s ease-out forwards;
+            opacity: 0;
+        }
+        .inquiries-section p:nth-of-type(1) { animation-delay: 0.8s; }
+        .inquiries-section p:nth-of-type(2) { animation-delay: 1.0s; }
+
+
+        /* Footer styles */
+        footer {
+            background-color: #1f2937;
+            color: #ffffff;
+            padding: 1.5rem 0;
+            text-align: center;
+            z-index: 100; /* Ensure footer is above other content if scrolling */
+        }
+
+        /* Animation Keyframes */
+        @keyframes fadeInSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Staggered animation for team cards */
+        .grid-cols-1 > div:nth-child(1), .grid-cols-3 > div:nth-child(1) { animation-delay: 0.5s; animation: fadeInSlideUp 0.7s ease-out forwards; }
+        .grid-cols-1 > div:nth-child(2), .grid-cols-3 > div:nth-child(2) { animation-delay: 0.7s; animation: fadeInSlideUp 0.7s ease-out forwards; }
+        .grid-cols-1 > div:nth-child(3), .grid-cols-3 > div:nth-child(3) { animation-delay: 0.9s; animation: fadeInSlideUp 0.7s ease-out forwards; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <header class="w-full py-4 px-6 flex justify-between items-center">
+        <a href="/" class="header-logo">Traffic Predictor</a>
+        <nav class="space-x-4">
+            <a href="/" class="nav-link">Home</a>
+            <a href="/predict" class="nav-link">Predict</a>
+            <a href="/about" class="nav-link">About</a>
+            <a href="/contact" class="nav-link">Contact</a>
+        </nav>
+    </header>
+
+    <main class="flex-grow flex items-center justify-center">
+        <div class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title">Meet the Team</h1>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
+                    <div class="team-card">
+                        <img src="https://placehold.co/120x120/E0E7FF/4F46E5?text=Y" alt="Yaswanth" class="profile-img mx-auto mb-4">
+                        <h2 class="text-xl font-semibold mb-2">Yaswanth</h2>
+                        <p class="mb-4">Lead Developer & Machine Learning Engineer</p>
+                        <a href="/contact/yaswanth">View Profile</a>
+                    </div>
+
+                    <div class="team-card">
+                        <img src="https://placehold.co/120x120/E0E7FF/4F46E5?text=J" alt="Jashwanth" class="profile-img mx-auto mb-4">
+                        <h2 class="text-xl font-semibold mb-2">Jashwanth</h2>
+                        <p class="mb-4">Data Scientist & Analyst</p>
+                        <a href="/contact/jashwanth">View Profile</a>
+                    </div>
+
+                    <div class="team-card">
+                        <img src="https://placehold.co/120x120/E0E7FF/4F46E5?text=C" alt="Chaithu" class="profile-img mx-auto mb-4">
+                        <h2 class="text-xl font-semibold mb-2">Chaithu</h2>
+                        <p class="mb-4">Frontend Developer & UX Designer</p>
+                        <a href="/contact/chaithu">View Profile</a>
+                    </div>
+                </div>
+
+                <div class="text-center mt-12 inquiries-section">
+                    <h2 class="text-2xl font-bold mb-4">General Inquiries</h2>
+                    <p class="text-lg">
+                        For any questions or feedback, please reach out to us at:
+                    </p>
+                    <p class="text-xl font-semibold text-indigo-400 mt-2">support@trafficpredictor.com</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2025 Traffic Volume Predictor. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

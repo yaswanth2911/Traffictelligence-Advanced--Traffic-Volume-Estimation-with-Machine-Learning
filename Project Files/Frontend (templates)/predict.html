@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Predict Traffic Volume</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      color: #e0e7ff;
+    }
+    .hero-section {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background-image: url('/static/images/5d896ca0-acfa-47d2-a01c-23c061277376.png');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      z-index: 1;
+      padding-top: 4rem;
+    }
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.3));
+      z-index: -1;
+    }
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      z-index: 1000;
+      backdrop-filter: blur(5px);
+    }
+    .header-logo {
+      color: #202124;
+      font-weight: bold;
+      font-size: 1.5rem;
+    }
+    .nav-link {
+      color: #5f6368;
+      font-weight: 500;
+      padding: 0.5rem 0.75rem;
+      border-radius: 0.25rem;
+      transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+    }
+    .nav-link:hover {
+      background-color: #f0f0f0;
+      color: #202124;
+    }
+    .hero-content {
+      max-width: 48rem;
+      width: 100%;
+      padding: 2rem 1rem;
+      animation: fadeInSlideUp 0.8s ease-out forwards;
+      animation-delay: 0.2s;
+      opacity: 0;
+      z-index: 10;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 0.5rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(8px);
+      text-align: left;
+    }
+    .hero-title {
+      color: #ffffff;
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 2rem;
+      line-height: 1.2;
+      animation: fadeInSlideUp 0.8s ease-out forwards;
+      animation-delay: 0.4s;
+      opacity: 0;
+      text-align: center;
+    }
+    footer {
+      background-color: #1f2937;
+      color: #ffffff;
+      padding: 1.5rem 0;
+      text-align: center;
+      z-index: 100;
+    }
+    @keyframes fadeInSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+
+<body class="min-h-screen flex flex-col">
+  <header class="w-full py-4 px-6 flex justify-between items-center">
+    <a href="/" class="header-logo">Traffic Predictor</a>
+    <nav class="space-x-4">
+      <a href="/" class="nav-link">Home</a>
+      <a href="/predict" class="nav-link">Predict</a>
+      <a href="/about" class="nav-link">About</a>
+      <a href="/contact" class="nav-link">Contact</a>
+    </nav>
+  </header>
+
+  <main class="flex-grow flex items-center justify-center">
+    <div class="hero-section">
+      <div class="hero-content">
+        <h1 class="hero-title">Predict Traffic Volume</h1>
+        <form action="/predict" method="post" class="space-y-6">
+          <div style="animation-delay: 0.6s;">
+            <label for="holiday" class="block text-sm font-medium mb-1 text-white">Holiday:</label>
+            <select id="holiday" name="holiday"
+              class="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-white text-gray-900 focus:border-purple-400 focus:ring focus:ring-purple-300 focus:ring-opacity-50"
+              required>
+              {% for h in holidays %}
+              <option value="{{ h }}">{{ h }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div style="animation-delay: 0.8s;">
+              <label for="temp" class="block text-sm font-medium mb-1 text-white">Temperature (°C):</label>
+              <input type="number" id="temp" name="temp" step="0.1" placeholder="e.g., 25.5" required
+                class="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-white text-gray-900 focus:border-purple-400 focus:ring focus:ring-purple-300 focus:ring-opacity-50"/>
+            </div>
+            <div style="animation-delay: 1.0s;">
+              <label for="rain" class="block text-sm font-medium mb-1 text-white">Rain (mm):</label>
+              <input type="number" id="rain" name="rain" step="0.01" placeholder="e.g., 0.5" required
+                class="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-white text-gray-900 focus:border-purple-400 focus:ring focus:ring-purple-300 focus:ring-opacity-50"/>
+            </div>
+            <div style="animation-delay: 1.2s;">
+              <label for="snow" class="block text-sm font-medium mb-1 text-white">Snow (mm):</label>
+              <input type="number" id="snow" name="snow" step="0.01" placeholder="e.g., 0.0" required
+                class="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-white text-gray-900 focus:border-purple-400 focus:ring focus:ring-purple-300 focus:ring-opacity-50"/>
+            </div>
+          </div>
+
+          <div style="animation-delay: 1.4s;">
+            <label for="weather" class="block text-sm font-medium mb-1 text-white">Weather Condition:</label>
+            <select id="weather" name="weather"
+              class="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-white text-gray-900 focus:border-purple-400 focus:ring focus:ring-purple-300 focus:ring-opacity-50"
+              required>
+              {% for w in weathers %}
+              <option value="{{ w }}">{{ w }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div style="animation-delay: 1.6s;">
+              <label for="date" class="block text-sm font-medium mb-1 text-white">Date (DD-MM-YYYY):</label>
+              <input type="text" id="date" name="date" placeholder="e.g., 28-06-2025" pattern="\d{2}-\d{2}-\d{4}" required
+                class="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-white text-gray-900 focus:border-purple-400 focus:ring focus:ring-purple-300 focus:ring-opacity-50"/>
+            </div>
+            <div style="animation-delay: 1.8s;">
+              <label for="Time" class="block text-sm font-medium mb-1 text-white">Time (HH:MM:SS):</label>
+              <input type="text" id="Time" name="Time" placeholder="e.g., 14:30:00" pattern="\d{2}:\d{2}:\d{2}" required
+                class="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-white text-gray-900 focus:border-purple-400 focus:ring focus:ring-purple-300 focus:ring-opacity-50"/>
+            </div>
+          </div>
+
+          <button type="submit"
+            class="w-full px-4 py-3 bg-indigo-600 text-white font-semibold rounded-md shadow-lg transition-all duration-300 ease-in-out transform hover:bg-indigo-700 hover:-translate-y-1"
+            style="animation-delay: 2.0s; animation: fadeInSlideUp 0.8s ease-out forwards; opacity: 0;">
+            Get Prediction
+          </button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container mx-auto px-4 text-center">
+      <p>&copy; 2025 Traffic Volume Predictor. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>
