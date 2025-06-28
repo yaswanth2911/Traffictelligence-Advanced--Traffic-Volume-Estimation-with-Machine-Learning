@@ -57,5 +57,5 @@ This project report is submitted as part of the **SmartInternz AI/ML Virtual Int
 
 ---
 
-> ⭐ If you find this project insightful, give it a ⭐ on GitHub and feel free to fork and contribute!
+
 
